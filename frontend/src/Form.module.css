@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+.container{
+    margin:2rem;
+}
+
+form{
+    display: grid;
+    grid-template-columns: 30rem 1fr;
+    font-family: "Roboto", sans-serif;
+
+}
+
+form button{
+    background-color: #dfdfdf;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 10px;
+    max-width: 20rem;
+}
+
+.formRight{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 65%;
+}
+
+.row{
+    display: flex;
+    flex-direction: column;
+}
+
+.row input{
+    max-width: 50rem;
+    background-color: #dfdfdf;
+    border: none;
+    padding: 0.7rem;
+    border-radius: 10px;
+}
+
+.row select{
+    background-color: #dfdfdf;
+    border: none;
+    padding: 0.7rem;
+    border-radius: 10px;
+}
+
+.row input:focus{
+    outline: #797979;
+}
+.row select:focus{
+    outline: #acaaaa;
+}
+
+.row label{
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    margin-left: 1.3rem;
+    font-weight: 500;
+}
+
+.subRow{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
