@@ -1,7 +1,7 @@
 // backend/server.js
 const express = require('express');
 const cors = require('cors');
-const multer = require('multer')
+const multer = require('multer');
 const { spawn } = require('child_process');
 
 const app = express();
@@ -12,11 +12,11 @@ const executePython = async (script, args) => {
   const py = spawn("python", [script, ...arguments]);
 
   const result = await new Promise((resolve, reject) => {
-      let output;
+      let output='';
 
       // Get output from python script
       py.stdout.on('data', (data) => {
-          output = JSON.parse(data);
+          output += data.toString();
       });
 
       // Handle erros

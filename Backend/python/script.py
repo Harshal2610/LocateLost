@@ -5,7 +5,7 @@ b = int(sys.argv[2])
 
 c = a / b
 
-print(c)
-# print("result is")
+# print(c)
+print("result is")
 
 sys.stdout.flush()
