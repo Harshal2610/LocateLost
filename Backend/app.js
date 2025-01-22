@@ -2,8 +2,37 @@
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer')
+const { spawn } = require('child_process');
 
 const app = express();
+
+const executePython = async (script, args) => {
+  const arguments = args.map(arg => arg.toString());
+
+  const py = spawn("python", [script, ...arguments]);
+
+  const result = await new Promise((resolve, reject) => {
+      let output;
+
+      // Get output from python script
+      py.stdout.on('data', (data) => {
+          output = JSON.parse(data);
+      });
+
+      // Handle erros
+      py.stderr.on("data", (data) => {
+          console.error(`[python] Error occured: ${data}`);
+          reject(`Error occured in ${script}`);
+      });
+
+      py.on("exit", (code) => {
+          console.log(`Child process exited with code ${code}`);
+          resolve(output);
+      });
+  });
+
+  return result;
+}
 
 const multerStorage = multer.diskStorage({
   destination: (req,file,cb)=>{
@@ -39,13 +68,6 @@ app.get('/api/data', (req, res) => {
   res.json({ message: "Hello Harshal from Express!" });
 });
 
-app.get('/api/data/user', (req, res) => {
-    res.status(200).json({
-        status:"success",
-        messaage:"Harshal sends the data from the backend"
-    })
-  });
-
 // Middleware to serve static files (for serving uploaded images)
 app.use('/api/uploads', express.static('uploads'));
 
@@ -59,6 +81,16 @@ app.post('/api/uploads',upload.single('photo'),(req, res) => {
     message: 'File uploaded successfully!',
     file: req.file,
   });
+});
+
+app.get('/api/runpy', async (req, res) => {
+  try {
+      const result = await executePython('python/script.py', [10, 5]);
+
+      res.json({ result: result });
+  } catch (error) {
+      res.status(500).json({ error: error });
+  }
 });
 
 // Start the server
